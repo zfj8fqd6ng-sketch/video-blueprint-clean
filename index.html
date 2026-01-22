@@ -3,55 +3,359 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Video Blueprint AI</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gradient-to-br from-gray-900 via-purple-900/20 to-black min-h-screen text-white">
-  <section class="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-purple-900/30 to-black overflow-hidden">
-  <div class="absolute -top-40 -right-40 w-80 h-80 bg-blue-500/20 rounded-full blur-3xl animate-pulse"></div>
-  <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-500/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
-  <div class="container mx-auto px-6 text-center relative z-10 max-w-4xl">
-    <div class="inline-block mb-8 p-4 bg-gradient-to-r from-blue-500/20 to-purple-500/20 backdrop-blur-xl rounded-3xl border border-white/20">
-      <span class="text-sm font-bold text-blue-300 tracking-wider uppercase">Live MVP - Beta Testers Welcome</span>
-    </div>
-    <h1 class="text-5xl md:text-7xl lg:text-8xl font-black leading-tight mb-8 bg-gradient-to-r from-white via-blue-100 to-purple-100 bg-clip-text text-transparent drop-shadow-2xl">
-      Video<br class="hidden md:block">
-      <span class="block text-transparent bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400">Blueprint</span><br>
-      <span class="text-3xl md:text-4xl font-normal text-blue-300/80">AI</span>
-    </h1>
-    <p class="text-lg md:text-2xl text-gray-300 mb-12 max-w-2xl mx-auto leading-relaxed drop-shadow-lg">
-      Turn one video idea into complete production plan - script, 50+ B-roll shots, SEO package - in 60 seconds.
-    </p>
-    <div class="flex flex-col sm:flex-row gap-6 justify-center items-center mb-20">
-      <a href="#generate
+  <title>Pikzels - YouTube Blueprint Generator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-    <h1 class="text-6xl font-bold text-center mb-8 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-      Video Blueprint AI
-    </h1>
-    <p class="text-2xl text-center mb-12 max-w-2xl mx-auto text-gray-300">
-      Video idea → Script + B-roll + SEO in 60 seconds
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #000000;
+      color: #FFFFFF;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Glassmorphism */
+    .glass {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(0, 255, 170, 0.3);
+      box-shadow: 0 8px 32px rgba(0, 255, 170, 0.1);
+    }
+
+    /* Glow Effects */
+    .glow {
+      box-shadow: 0 0 20px rgba(0, 255, 170, 0.5);
+      transition: all 0.3s ease;
+    }
+
+    .glow:hover {
+      box-shadow: 0 0 40px rgba(0, 255, 170, 0.8);
+    }
+
+    /* Header */
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 20px 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(0, 255, 170, 0.2);
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #00FFAA, #00D4AA);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    nav a {
+      color: #CCCCCC;
+      text-decoration: none;
+      margin-left: 30px;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #00FFAA;
+    }
+
+    /* Hero Section */
+    .hero {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 0 5%;
+      background: radial-gradient(ellipse at center, rgba(0, 255, 170, 0.1) 0%, transparent 70%);
+    }
+
+    .hero h1 {
+      font-size: clamp(3rem, 8vw, 6rem);
+      font-weight: 800;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #FFFFFF 0%, #00FFAA 50%, #00D4AA 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      font-size: clamp(1.2rem, 3vw, 1.8rem);
+      max-width: 600px;
+      margin-bottom: 40px;
+      color: #CCCCCC;
+    }
+
+    .cta-button {
+      display: inline-block;
+      padding: 20px 40px;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #000;
+      background: linear-gradient(135deg, #00FFAA, #00D4AA);
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s;
+      box-shadow: 0 10px 30px rgba(0, 255, 170, 0.4);
+    }
+
+    .cta-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 20px 40px rgba(0, 255, 170, 0.6);
+    }
+
+    /* Features Section */
+    .features {
+      padding: 120px 5% 80px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 80px;
+      color: #FFFFFF;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 40px;
+    }
+
+    .feature-card {
+      padding: 40px;
+      border-radius: 24px;
+      text-align: center;
+      transition: transform 0.3s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-10px);
+    }
+
+    .feature-icon {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #00FFAA, #00D4AA);
+      border-radius: 20px;
+      margin: 0 auto 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+    }
+
+    /* Beta Access Section */
+    .beta-section {
+      padding: 120px 5%;
+      background: radial-gradient(ellipse at center, rgba(0, 255, 170, 0.05) 0%, transparent 70%);
+      text-align: center;
+    }
+
+    .beta-form {
+      max-width: 500px;
+      margin: 40px auto 0;
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .input-field {
+      padding: 18px 24px;
+      font-size: 1.1rem;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(0, 255, 170, 0.3);
+      border-radius: 50px;
+      color: #FFFFFF;
+      flex: 1;
+      min-width: 250px;
+    }
+
+    .input-field::placeholder {
+      color: #888;
+    }
+
+    .input-field:focus {
+      outline: none;
+      border-color: #00FFAA;
+      box-shadow: 0 0 20px rgba(0, 255, 170, 0.3);
+    }
+
+    /* Footer */
+    footer {
+      padding: 60px 5% 40px;
+      text-align: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-bottom: 20px;
+    }
+
+    .footer-links a {
+      color: #CCCCCC;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .footer-links a:hover {
+      color: #00FFAA;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .beta-form {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .input-field {
+        width: 100%;
+        min-width: unset;
+      }
+      
+      header {
+        padding: 15px 5%;
+      }
+      
+      nav {
+        display: none;
+      }
+    }
+
+    /* Scroll animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .animate {
+      animation: fadeInUp 0.8s ease forwards;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="glass">
+    <div class="logo">Pikzels</div>
+    <nav>
+      <a href="#features">Features</a>
+      <a href="#beta">Beta Access</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1 class="animate">AI YouTube Blueprints</h1>
+    <p class="animate">Generate proven 6-7 figure YouTube channel strategies in 60 seconds. Custom blueprints for your niche, audience, and goals.</p>
+    <a href="#beta" class="cta-button glow animate">Beta Access</a>
+  </section>
+
+  <!-- Features -->
+  <section id="features" class="features">
+    <h2 class="section-title">How It Works</h2>
+    <div class="features-grid">
+      <div class="feature-card glass glow">
+        <div class="feature-icon">🎯</div>
+        <h3 style="font-size: 1.8rem; margin-bottom: 15px;">Enter Your Niche</h3>
+        <p style="color: #CCCCCC;">Tell us your niche, target audience, and goals. Takes 30 seconds.</p>
+      </div>
+      <div class="feature-card glass glow">
+        <div class="feature-icon">⚡</div>
+        <h3 style="font-size: 1.8rem; margin-bottom: 15px;">AI Analysis</h3>
+        <p style="color: #CCCCCC;">Our AI analyzes 10,000+ successful channels and generates your custom blueprint.</p>
+      </div>
+      <div class="feature-card glass glow">
+        <div class="feature-icon">📋</div>
+        <h3 style="font-size: 1.8rem; margin-bottom: 15px;">Your Blueprint</h3>
+        <p style="color: #CCCCCC;">Get a complete 90-day roadmap: content pillars, hooks, thumbnails, posting schedule.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Beta Access -->
+  <section id="beta" class="beta-section">
+    <h2 style="font-size: 3.5rem; margin-bottom: 20px;">Beta Access</h2>
+    <p style="font-size: 1.3rem; color: #CCCCCC; max-width: 700px; margin: 0 auto 60px;">
+      First 100 beta testers get 3 free blueprints + lifetime 50% discount.
     </p>
-    <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto mb-20">
-      <div class="bg-gray-800/50 p-8 rounded-3xl text-center">
-        <h3 class="text-3xl font-bold mb-4 text-blue-400">📋 Script</h3>
-        <p>Your style, timed sections</p>
-      </div>
-      <div class="bg-gray-800/50 p-8 rounded-3xl text-center">
-        <h3 class="text-3xl font-bold mb-4 text-purple-400">🎥 B-Roll</h3>
-        <p>50+ shots you can film</p>
-      </div>
-      <div class="bg-gray-800/50 p-8 rounded-3xl text-center">
-        <h3 class="text-3xl font-bold mb-4 text-green-400">🚀 SEO</h3>
-        <p>Titles, tags, thumbnails</p>
-      </div>
+    
+    <form class="beta-form" id="betaForm">
+      <input type="email" class="input-field glow" placeholder="your@email.com" required>
+      <input type="text" class="input-field glow" placeholder="Beta Code" required>
+      <button type="submit" class="cta-button glow" style="min-width: 200px;">Join Beta</button>
+    </form>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-links">
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+      <a href="#">Contact</a>
     </div>
-    <div class="max-w-md mx-auto bg-gray-800/50 p-12 rounded-3xl">
-      <h2 class="text-3xl text-center mb-8">Early Access</h2>
-      <input type="email" placeholder="your@email.com" class="w-full p-4 rounded-2xl bg-gray-900 border mb-4">
-      <button class="w-full p-4 bg-blue-600 rounded-2xl font-bold text-xl hover:bg-blue-700">
-        Get Free Blueprint
-      </button>
-    </div>
-  </div>
+    <p style="color: #888; font-size: 0.9rem;">© 2026 Pikzels. Built for creators.</p>
+  </footer>
+
+  <script>
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+
+    // Beta form
+    document.getElementById('betaForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('Beta access requested! Check your email for invite. 🚀');
+      // Here: POST to /api/beta-signup
+    });
+
+    // Header scroll effect
+    window.addEventListener('scroll', () => {
+      const header = document.querySelector('header');
+      if (window.scrollY > 100) {
+        header.style.background = 'rgba(0, 0, 0, 0.9)';
+      } else {
+        header.style.background = 'transparent';
+      }
+    });
+  </script>
 </body>
 </html>
