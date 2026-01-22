@@ -3,4 +3,133 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
- 
+  <title>Generate Blueprint - Pikzels</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#00FFAA',
+            glass: 'rgba(255,255,255,0.05)',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .glass { background: rgba(255,255,255,0.05); backdrop-filter: blur(20px); border: 1px solid rgba(0,255,170,0.3); }
+    .glow { box-shadow: 0 0 20px rgba(0,255,170,0.5); transition: all 0.3s ease; }
+    .glow:hover { box-shadow: 0 0 40px rgba(0,255,170,0.8); transform: translateY(-2px); }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-gray-900 via-purple-900/20 to-black min-h-screen text-white">
+  <!-- Navbar -->
+  <nav class="container mx-auto px-6 py-6 flex justify-between items-center">
+    <h2 class="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">Pikzels</h2>
+    <a href="index.html" class="px-8 py-3 bg-primary/20 text-primary rounded-2xl font-semibold glow">← Back to Home</a>
+  </nav>
+
+  <!-- Main Form -->
+  <main class="container mx-auto px-6 py-24 max-w-2xl">
+    <div class="glass p-12 rounded-3xl glow mb-12">
+      <h1 class="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-blue-400 via-purple-400 to-primary bg-clip-text text-transparent">
+        Generate Your Blueprint
+      </h1>
+      <p class="text-xl text-gray-300 mb-12 leading-relaxed">Enter details → Get script, B-roll (50 shots), SEO in 60s. Copy-paste ready.</p>
+      
+      <form id="blueprintForm" class="space-y-6">
+        <div>
+          <label class="block text-sm font-medium mb-2 text-gray-300">Video Topic (e.g., "Wowcher Mystery Holiday")</label>
+          <input type="text" name="topic" required class="w-full p-5 glass rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:ring-4 ring-primary/30 glow" placeholder="One sentence idea">
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-2 text-gray-300">Niche</label>
+          <input type="text" name="niche" required class="w-full p-5 glass rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:ring-4 ring-primary/30 glow" placeholder="travel, gaming, fitness, tech...">
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-2 text-gray-300">Target Length (minutes)</label>
+          <input type="number" name="length" min="5" max="30" value="10" required class="w-full p-5 glass rounded-2xl text-white focus:outline-none focus:ring-4 ring-primary/30 glow">
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-2 text-gray-300">Voice Sample/Transcript (1-2 paras for style match)</label>
+          <textarea name="transcript" rows="4" class="w-full p-5 glass rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:ring-4 ring-primary/30 glow" placeholder="Paste transcript from old video..."></textarea>
+        </div>
+        <button type="submit" class="w-full py-6 bg-gradient-to-r from-primary to-blue-500 text-black font-bold text-xl rounded-2xl glow hover:from-primary/90 transition-all duration-300">
+          🚀 Generate Blueprint (60s)
+        </button>
+      </form>
+    </div>
+
+    <!-- Placeholder Output (shows on submit) -->
+    <div id="output" class="hidden glass p-12 rounded-3xl glow space-y-8">
+      <div class="flex justify-between items-center">
+        <h2 class="text-3xl font-bold bg-gradient-to-r from-blue-400 to-primary bg-clip-text text-transparent">Your Blueprint</h2>
+        <div class="flex gap-4">
+          <button onclick="copyAll()" class="px-6 py-3 bg-primary/20 text-primary rounded-xl font-semibold glow">📋 Copy All</button>
+          <a href="dashboard.html" class="px-6 py-3 bg-gray-800/50 text-white rounded-xl glow">💾 Save & Dashboard</a>
+        </div>
+      </div>
+      <!-- Sample sections: replace with JSON from webhook -->
+      <section>
+        <h3 class="text-2xl font-bold mb-4">📋 Running Order & Script</h3>
+        <pre class="glass p-6 rounded-2xl text-sm overflow-auto bg-gray-900/50">1. Hook (0:00-0:15): What if £99 books mystery trip to Berlin? [Script...]</pre>
+      </section>
+      <section>
+        <h3 class="text-2xl font-bold mb-4">🎥 B-Roll Checklist (56 shots)</h3>
+        <ul class="glass p-6 rounded-2xl space-y-2 max-h-64 overflow-auto bg-gray-900/50">
+          <li>• Envelope reveal CU</li>
+          <li>• Packing frenzy handheld</li>
+          <!-- More... -->
+        </ul>
+      </section>
+      <section>
+        <h3 class="text-2xl font-bold mb-4">🔍 SEO Package</h3>
+        <div class="grid md:grid-cols-2 gap-4">
+          <div class="glass p-4 rounded-xl">
+            <strong>Titles:</strong><br>£99 Mystery SHOCKER: Berlin?! [5 options]
+          </div>
+          <div class="glass p-4 rounded-xl">
+            <strong>Tags:</strong><br>mystery holiday, berlin travel [50 tags]
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    document.getElementById('blueprintForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const data = Object.fromEntries(formData);
+
+      // Replace with your Make.com webhook URL
+      const webhookUrl = 'https://hook.eu1.make.com/YOUR_WEBHOOK_ID'; // Get from Make.com
+
+      try {
+        document.querySelector('button[type="submit"]').textContent = 'Generating...';
+        const response = await fetch(webhookUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        const blueprint = await response.json();
+        // Populate #output with blueprint (parse JSON to sections)
+        document.getElementById('output').classList.remove('hidden');
+        console.log('Blueprint:', blueprint); // Replace with dynamic render
+      } catch (error) {
+        alert('Error: ' + error.message);
+      }
+      document.querySelector('button[type="submit"]').textContent = '🚀 Generate Blueprint (60s)';
+    });
+
+    function copyAll() {
+      const output = document.getElementById('output').innerText;
+      navigator.clipboard.writeText(output).then(() => alert('Copied to clipboard!'));
+    }
+  </script>
+</body>
+</html>
